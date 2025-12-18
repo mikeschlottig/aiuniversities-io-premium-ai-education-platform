@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ExternalLink, BookOpen, Tool, FileText } from 'lucide-react';
+import { ExternalLink, BookOpen, Wrench, FileText } from 'lucide-react';
 interface TabContentProps {
   tab: Tab;
 }
@@ -12,7 +12,7 @@ export function TabContent({ tab }: TabContentProps) {
   const getIcon = (type: string) => {
     switch (type) {
       case 'course': return <BookOpen className="h-4 w-4" />;
-      case 'tool': return <Tool className="h-4 w-4" />;
+      case 'tool': return <Wrench className="h-4 w-4" />;
       default: return <FileText className="h-4 w-4" />;
     }
   };
