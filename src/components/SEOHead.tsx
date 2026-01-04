@@ -1,41 +1,36 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Tab } from '@/data';
 interface SEOHeadProps {
   tabId: string;
   tabData?: Tab | null;
 }
-export function SEOHead({ tabId, tabData }: SEOHeadProps) {
-  const origin = typeof window !== 'undefined' ? window.location.origin : 'https://aiuniversities.io';
+const ORIGIN = typeof window !== 'undefined' ? window.location.origin : 'https://aiuniversities.io';
+export const SEOHead = React.memo(({ tabId, tabData }: SEOHeadProps) => {
   const isHome = tabId === 'home';
-  const title = isHome
-    ? "AIUniversities.io | Master AI & Modern Tech—Free"
-    : `AIUniversities.io | ${tabData?.label || 'Premium AI Education'}`;
-  const description = isHome
+  const title = useMemo(() => isHome
+    ? "AIUniversities.io | Master AI & Modern Tech��Free"
+    : `AIUniversities.io | ${tabData?.label || 'Premium AI Education'}`
+  , [isHome, tabData?.label]);
+  const description = useMemo(() => isHome
     ? "Premium AI education platform aggregating elite resources from MIT, Anthropic, and industry leaders. Master AI skills, build your second brain, and leverage modern tech."
-    : (tabData?.metaDescription || tabData?.heroSubtitle || "").substring(0, 160);
-  const keywords = [
-    "AI education", "free AI courses", "MIT AI", "Anthropic prompt engineering",
-    "second brain systems", "AI tools directory", "modern tech mastery",
-    ...(tabData?.keywords || [])
-  ].join(", ");
-  const canonicalUrl = `${origin}${isHome ? '' : `?tab=${tabId}`}`;
-  const ogImage = `${origin}/og/${isHome ? 'home' : tabId}.png`;
-  // Structured Data: Organization
-  const organizationSchema = {
+    : (tabData?.metaDescription || tabData?.heroSubtitle || "").substring(0, 160)
+  , [isHome, tabData?.metaDescription, tabData?.heroSubtitle]);
+  const canonicalUrl = useMemo(() => `${ORIGIN}${isHome ? '' : `?tab=${tabId}`}`, [isHome, tabId]);
+  const ogImage = useMemo(() => `${ORIGIN}/og/${isHome ? 'home' : tabId}.png`, [isHome, tabId]);
+  const organizationSchema = useMemo(() => ({
     "@context": "https://schema.org",
     "@type": "Organization",
     "name": "AIUniversities.io",
-    "url": origin,
-    "logo": `${origin}/favicon.ico`,
+    "url": ORIGIN,
+    "logo": `${ORIGIN}/favicon.ico`,
     "description": "Premium AI education platform aggregating elite resources from MIT, Stanford, and industry leaders.",
     "sameAs": [
       "https://twitter.com/aiuniversities",
       "https://github.com/aiuniversities"
     ]
-  };
-  // Structured Data: Breadcrumb
-  const breadcrumbSchema = {
+  }), []);
+  const breadcrumbSchema = useMemo(() => ({
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
@@ -43,7 +38,7 @@ export function SEOHead({ tabId, tabData }: SEOHeadProps) {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": origin
+        "item": ORIGIN
       },
       !isHome && tabData ? {
         "@type": "ListItem",
@@ -52,9 +47,8 @@ export function SEOHead({ tabId, tabData }: SEOHeadProps) {
         "item": canonicalUrl
       } : null
     ].filter(Boolean)
-  };
-  // Structured Data: Course (if applicable)
-  const courseSchema = !isHome && tabData ? {
+  }), [isHome, tabData?.label, canonicalUrl]);
+  const courseSchema = useMemo(() => !isHome && tabData ? {
     "@context": "https://schema.org",
     "@type": "Course",
     "name": tabData.heroTitle,
@@ -62,36 +56,25 @@ export function SEOHead({ tabId, tabData }: SEOHeadProps) {
     "provider": {
       "@type": "Organization",
       "name": "AIUniversities.io",
-      "sameAs": origin
+      "sameAs": ORIGIN
     },
     "educationalLevel": "Beginner to Advanced",
     "courseMode": "Online"
-  } : null;
+  } : null, [isHome, tabData?.heroTitle, tabData?.metaDescription]);
   return (
-    <Helmet>
-      {/* Basic Meta Tags */}
+    <Helmet key={tabId}>
       <title>{title}</title>
       <meta name="description" content={description} />
-      <meta name="keywords" content={keywords} />
       <link rel="canonical" href={canonicalUrl} />
-      <meta name="robots" content="index, follow" />
-      {/* Open Graph / Facebook */}
       <meta property="og:type" content={isHome ? "website" : "article"} />
       <meta property="og:url" content={canonicalUrl} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={ogImage} />
-      <meta property="og:site_name" content="AIUniversities.io" />
-      <meta property="og:locale" content="en_US" />
-      {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@aiuniversities" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage} />
-      {/* Theme Color */}
-      <meta name="theme-color" content="#0f172a" />
-      {/* Structured Data */}
       <script type="application/ld+json">
         {JSON.stringify(organizationSchema)}
       </script>
@@ -105,4 +88,5 @@ export function SEOHead({ tabId, tabData }: SEOHeadProps) {
       )}
     </Helmet>
   );
-}
+}, (prev, next) => prev.tabId === next.tabId && prev.tabData?.id === next.tabData?.id);
+SEOHead.displayName = 'SEOHead';

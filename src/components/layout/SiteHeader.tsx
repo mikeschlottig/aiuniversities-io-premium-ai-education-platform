@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import { SITE_DATA } from '@/data';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Menu, Sparkles, Search, GraduationCap, Zap, Brain, Wrench, MessageSquare, Video, School } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { useScrollPosition } from '@/hooks/use-scroll-position';
 const iconMap: Record<string, any> = {
   GraduationCap, Zap, Brain, Wrench, MessageSquare, Video, School
 };
@@ -14,20 +15,41 @@ interface SiteHeaderProps {
 }
 export function SiteHeader({ activeTab, onTabChange }: SiteHeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-  const handleNav = (id: string) => {
+  const { isScrolled } = useScrollPosition();
+  const handleNav = useCallback((id: string) => {
     onTabChange(id);
     setIsOpen(false);
-  };
+  }, [onTabChange]);
+  const desktopNavItems = useMemo(() => (
+    SITE_DATA.tabs.map((tab) => {
+      const Icon = iconMap[tab.icon];
+      const isActive = activeTab === tab.id;
+      return (
+        <button
+          key={tab.id}
+          onClick={() => onTabChange(tab.id)}
+          className={cn(
+            "relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-xl flex items-center gap-2",
+            isActive ? "text-white" : "text-slate-400 hover:text-white hover:bg-white/5"
+          )}
+        >
+          {isActive && (
+            <motion.div
+              layoutId="activeTab"
+              className="absolute inset-0 bg-blue-600/20 border border-blue-500/30 rounded-xl will-change-transform"
+              transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+            />
+          )}
+          {Icon && <Icon className={cn("h-4 w-4 relative z-10", isActive ? "text-blue-400" : "opacity-50")} />}
+          <span className="relative z-10">{tab.label}</span>
+        </button>
+      );
+    })
+  ), [activeTab, onTabChange]);
   return (
     <header className={cn(
       "sticky top-0 z-50 w-full transition-all duration-300 border-b",
-      scrolled ? "bg-slate-950/90 backdrop-blur-xl border-white/10 py-2" : "bg-transparent border-transparent py-4"
+      isScrolled ? "bg-slate-950/90 backdrop-blur-xl border-white/10 py-2" : "bg-transparent border-transparent py-4"
     )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-14 items-center justify-between">
@@ -38,39 +60,15 @@ export function SiteHeader({ activeTab, onTabChange }: SiteHeaderProps) {
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && onTabChange('home')}
           >
-            <div className="bg-gradient-to-br from-blue-600 to-violet-600 p-2 rounded-xl group-hover:scale-110 transition-transform shadow-lg shadow-blue-500/20">
+            <div className="bg-gradient-to-br from-blue-600 to-violet-600 p-2 rounded-xl group-hover:scale-110 transition-transform shadow-lg shadow-blue-500/20 will-change-transform">
               <Sparkles className="h-5 w-5 text-white" />
             </div>
             <span className="text-2xl font-bold tracking-tight text-white">
               AI<span className="text-blue-500">Universities</span>
             </span>
           </div>
-          {/* Desktop Nav */}
           <nav className="hidden xl:flex items-center gap-1 bg-white/5 p-1 rounded-2xl border border-white/5" aria-label="Main navigation">
-            {SITE_DATA.tabs.map((tab) => {
-              const Icon = iconMap[tab.icon];
-              const isActive = activeTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => onTabChange(tab.id)}
-                  className={cn(
-                    "relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-xl flex items-center gap-2",
-                    isActive ? "text-white" : "text-slate-400 hover:text-white hover:bg-white/5"
-                  )}
-                >
-                  {isActive && (
-                    <motion.div
-                      layoutId="activeTab"
-                      className="absolute inset-0 bg-blue-600/20 border border-blue-500/30 rounded-xl"
-                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                    />
-                  )}
-                  {Icon && <Icon className={cn("h-4 w-4", isActive ? "text-blue-400" : "opacity-50")} />}
-                  <span className="relative z-10">{tab.label}</span>
-                </button>
-              );
-            })}
+            {desktopNavItems}
           </nav>
           <div className="flex items-center gap-3">
             <Button variant="ghost" size="icon" className="text-slate-400 hover:text-white hover:bg-white/5 rounded-xl hidden md:flex">

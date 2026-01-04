@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 import { motion } from 'framer-motion';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card';
@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { ExternalLink, BookOpen, Wrench, FileText, Lightbulb, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
 const resourceCardVariants = cva(
-  "relative overflow-hidden transition-all duration-300 group border-white/10",
+  "relative overflow-hidden transition-all duration-300 group border-white/10 will-change-transform",
   {
     variants: {
       type: {
@@ -22,6 +22,33 @@ const resourceCardVariants = cva(
     }
   }
 );
+const getIcon = (type: string) => {
+  switch (type) {
+    case 'course': return <BookOpen className="h-5 w-5" />;
+    case 'tool': return <Wrench className="h-5 w-5" />;
+    case 'guide': return <Lightbulb className="h-5 w-5" />;
+    case 'report': return <FileText className="h-5 w-5" />;
+    default: return <BookOpen className="h-5 w-5" />;
+  }
+};
+const getGradient = (type: string) => {
+  switch (type) {
+    case 'course': return "from-blue-600/20 to-indigo-600/5";
+    case 'tool': return "from-emerald-600/20 to-teal-600/5";
+    case 'guide': return "from-amber-600/20 to-orange-600/5";
+    case 'report': return "from-purple-600/20 to-pink-600/5";
+    default: return "from-blue-600/20 to-indigo-600/5";
+  }
+};
+const getIconColor = (type: string) => {
+  switch (type) {
+    case 'course': return "text-blue-400";
+    case 'tool': return "text-emerald-400";
+    case 'guide': return "text-amber-400";
+    case 'report': return "text-purple-400";
+    default: return "text-blue-400";
+  }
+};
 interface ResourceCardProps extends VariantProps<typeof resourceCardVariants> {
   title: string;
   description: string;
@@ -31,44 +58,25 @@ interface ResourceCardProps extends VariantProps<typeof resourceCardVariants> {
   featured?: boolean;
   index?: number;
 }
-export function ResourceCard({ title, description, link, type, tag, featured, index = 0 }: ResourceCardProps) {
-  const getIcon = () => {
-    switch (type) {
-      case 'course': return <BookOpen className="h-5 w-5" />;
-      case 'tool': return <Wrench className="h-5 w-5" />;
-      case 'guide': return <Lightbulb className="h-5 w-5" />;
-      case 'report': return <FileText className="h-5 w-5" />;
-    }
-  };
-  const getGradient = () => {
-    switch (type) {
-      case 'course': return "from-blue-600/20 to-indigo-600/5";
-      case 'tool': return "from-emerald-600/20 to-teal-600/5";
-      case 'guide': return "from-amber-600/20 to-orange-600/5";
-      case 'report': return "from-purple-600/20 to-pink-600/5";
-    }
-  };
-  const getIconColor = () => {
-    switch (type) {
-      case 'course': return "text-blue-400";
-      case 'tool': return "text-emerald-400";
-      case 'guide': return "text-amber-400";
-      case 'report': return "text-purple-400";
-    }
-  };
+export const ResourceCard = React.memo(({ title, description, link, type, tag, featured, index = 0 }: ResourceCardProps) => {
+  const handleLinkClick = useCallback((e: React.MouseEvent) => {
+    // Prevent any potential parent re-renders if needed
+    // e.stopPropagation();
+  }, []);
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, delay: index * 0.05 }}
-      whileHover={{ scale: 1.02 }}
+      transition={{ duration: 0.3, delay: index * 0.05 }}
+      whileHover={{ scale: 1.01 }}
+      className="h-full"
     >
       <Card className={cn(resourceCardVariants({ type }), "bg-slate-900/40 backdrop-blur-sm h-full flex flex-col")}>
-        <div className={cn("absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none", getGradient())} />
+        <div className={cn("absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none", getGradient(type))} />
         <CardHeader className="relative z-10 pb-3">
           <div className="flex justify-between items-start mb-4">
-            <div className={cn("p-2.5 rounded-xl bg-slate-800/50 border border-white/5", getIconColor())}>
-              {getIcon()}
+            <div className={cn("p-2.5 rounded-xl bg-slate-800/50 border border-white/5", getIconColor(type))}>
+              {getIcon(type)}
             </div>
             <div className="flex gap-2">
               {featured && (
@@ -95,10 +103,11 @@ export function ResourceCard({ title, description, link, type, tag, featured, in
         <CardFooter className="relative z-10 pt-0">
           <Button
             variant="ghost"
-            className={cn("w-full justify-between group/btn border border-white/5 bg-white/5 hover:bg-white/10", getIconColor())}
+            className={cn("w-full justify-between group/btn border border-white/5 bg-white/5 hover:bg-white/10", getIconColor(type))}
             asChild
+            onClick={handleLinkClick}
           >
-            <a href={link} target="_blank" rel="noopener noreferrer">
+            <a href={link} target="_blank" rel="noopener noreferrer" aria-label={`Access ${title}`}>
               Access Resource
               <ExternalLink className="h-4 w-4 opacity-50 group-hover/btn:opacity-100 group-hover/btn:translate-x-0.5 transition-all" />
             </a>
@@ -107,4 +116,10 @@ export function ResourceCard({ title, description, link, type, tag, featured, in
       </Card>
     </motion.div>
   );
-}
+}, (prev, next) => (
+  prev.title === next.title && 
+  prev.type === next.type && 
+  prev.featured === next.featured &&
+  prev.tag === next.tag
+));
+ResourceCard.displayName = 'ResourceCard';

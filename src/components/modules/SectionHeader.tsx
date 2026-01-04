@@ -9,13 +9,22 @@ interface SectionHeaderProps {
   variant?: 'default' | 'featured' | 'minimal';
   className?: string;
 }
-export function SectionHeader({ title, subtitle, icon: Icon, variant = 'default', className }: SectionHeaderProps) {
+const titleVariants = {
+  hidden: { opacity: 0, x: -15 },
+  visible: { opacity: 1, x: 0 }
+};
+const subtitleVariants = {
+  hidden: { opacity: 0, y: 10 },
+  visible: { opacity: 1, y: 0 }
+};
+export const SectionHeader = React.memo(({ title, subtitle, icon: Icon, variant = 'default', className }: SectionHeaderProps) => {
   return (
     <div className={cn("mb-8", className)}>
       <motion.div
-        initial={{ opacity: 0, x: -20 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true }}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.3 }}
+        variants={titleVariants}
         transition={{ duration: 0.5 }}
         className="flex items-center gap-3 mb-2"
       >
@@ -40,9 +49,10 @@ export function SectionHeader({ title, subtitle, icon: Icon, variant = 'default'
       </motion.div>
       {subtitle && (
         <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.3 }}
+          variants={subtitleVariants}
           transition={{ duration: 0.5, delay: 0.1 }}
           className="text-slate-400 text-lg max-w-2xl leading-relaxed"
         >
@@ -51,4 +61,9 @@ export function SectionHeader({ title, subtitle, icon: Icon, variant = 'default'
       )}
     </div>
   );
-}
+}, (prev, next) => (
+  prev.title === next.title && 
+  prev.variant === next.variant && 
+  prev.subtitle === next.subtitle
+));
+SectionHeader.displayName = 'SectionHeader';
