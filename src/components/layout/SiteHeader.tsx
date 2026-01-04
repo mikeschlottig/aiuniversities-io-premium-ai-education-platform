@@ -1,91 +1,126 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SITE_DATA } from '@/data';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Sparkles } from 'lucide-react';
+import { Menu, Sparkles, Search, GraduationCap, Zap, Brain, Wrench, MessageSquare, Video, School } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { motion, AnimatePresence } from 'framer-motion';
+const iconMap: Record<string, any> = {
+  GraduationCap, Zap, Brain, Wrench, MessageSquare, Video, School
+};
 interface SiteHeaderProps {
   activeTab: string;
   onTabChange: (id: string) => void;
 }
 export function SiteHeader({ activeTab, onTabChange }: SiteHeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   const handleNav = (id: string) => {
     onTabChange(id);
     setIsOpen(false);
   };
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-slate-950/80 backdrop-blur-md">
+    <header className={cn(
+      "sticky top-0 z-50 w-full transition-all duration-300 border-b",
+      scrolled ? "bg-slate-950/90 backdrop-blur-xl border-white/10 py-2" : "bg-transparent border-transparent py-4"
+    )}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
-          <div 
-            className="flex items-center gap-2 cursor-pointer hover:opacity-90 transition-opacity" 
+        <div className="flex h-14 items-center justify-between">
+          <div
+            className="flex items-center gap-2.5 cursor-pointer group"
             onClick={() => onTabChange('home')}
             role="button"
             tabIndex={0}
             onKeyDown={(e) => e.key === 'Enter' && onTabChange('home')}
-            aria-label="Go to homepage"
           >
-            <div className="bg-gradient-to-br from-violet-600 to-blue-600 p-1.5 rounded-lg">
+            <div className="bg-gradient-to-br from-blue-600 to-violet-600 p-2 rounded-xl group-hover:scale-110 transition-transform shadow-lg shadow-blue-500/20">
               <Sparkles className="h-5 w-5 text-white" />
             </div>
-            <span className="text-xl font-bold tracking-tight text-white">
+            <span className="text-2xl font-bold tracking-tight text-white">
               AI<span className="text-blue-500">Universities</span>
             </span>
           </div>
           {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-1" aria-label="Main navigation">
-            {SITE_DATA.tabs.map((tab) => (
-              <Button
-                key={tab.id}
-                variant="ghost"
-                size="sm"
-                onClick={() => onTabChange(tab.id)}
-                className={cn(
-                  "text-slate-400 hover:text-white hover:bg-white/5 transition-colors focus-visible:ring-2 focus-visible:ring-blue-500",
-                  activeTab === tab.id && "text-white bg-white/10"
-                )}
-              >
-                {tab.label}
-              </Button>
-            ))}
+          <nav className="hidden xl:flex items-center gap-1 bg-white/5 p-1 rounded-2xl border border-white/5" aria-label="Main navigation">
+            {SITE_DATA.tabs.map((tab) => {
+              const Icon = iconMap[tab.icon];
+              const isActive = activeTab === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => onTabChange(tab.id)}
+                  className={cn(
+                    "relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-xl flex items-center gap-2",
+                    isActive ? "text-white" : "text-slate-400 hover:text-white hover:bg-white/5"
+                  )}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeTab"
+                      className="absolute inset-0 bg-blue-600/20 border border-blue-500/30 rounded-xl"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+                  {Icon && <Icon className={cn("h-4 w-4", isActive ? "text-blue-400" : "opacity-50")} />}
+                  <span className="relative z-10">{tab.label}</span>
+                </button>
+              );
+            })}
           </nav>
-          {/* Mobile Nav */}
-          <div className="lg:hidden">
-            <Sheet open={isOpen} onOpenChange={setIsOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-slate-400" aria-label="Open mobile menu">
-                  <Menu className="h-6 w-6" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="right" className="bg-slate-950 border-white/10 text-white" aria-label="Mobile menu">
-                <div className="flex flex-col gap-3 mt-8">
-                  <Button
-                    variant="ghost"
-                    className={cn(
-                      "justify-start text-lg",
-                      activeTab === 'home' ? "text-blue-500" : "text-slate-400"
-                    )}
-                    onClick={() => handleNav('home')}
-                  >
-                    Home
+          <div className="flex items-center gap-3">
+            <Button variant="ghost" size="icon" className="text-slate-400 hover:text-white hover:bg-white/5 rounded-xl hidden md:flex">
+              <Search className="h-5 w-5" />
+            </Button>
+            <div className="xl:hidden">
+              <Sheet open={isOpen} onOpenChange={setIsOpen}>
+                <SheetTrigger asChild>
+                  <Button variant="ghost" size="icon" className="text-slate-400 hover:bg-white/5 rounded-xl">
+                    <Menu className="h-6 w-6" />
                   </Button>
-                  {SITE_DATA.tabs.map((tab) => (
+                </SheetTrigger>
+                <SheetContent side="right" className="bg-slate-950 border-white/10 text-white w-[300px] p-0 overflow-hidden">
+                  <div className="p-6 border-b border-white/10">
+                    <span className="text-xl font-bold tracking-tight">Navigation</span>
+                  </div>
+                  <div className="flex flex-col p-4 gap-1">
                     <Button
-                      key={tab.id}
                       variant="ghost"
                       className={cn(
-                        "justify-start text-lg",
-                        activeTab === tab.id ? "text-blue-500" : "text-slate-400"
+                        "justify-start text-lg h-14 rounded-xl px-4",
+                        activeTab === 'home' ? "bg-blue-600/10 text-blue-400" : "text-slate-400"
                       )}
-                      onClick={() => handleNav(tab.id)}
+                      onClick={() => handleNav('home')}
                     >
-                      {tab.label}
+                      <Sparkles className="mr-3 h-5 w-5" />
+                      Home
                     </Button>
-                  ))}
-                </div>
-              </SheetContent>
-            </Sheet>
+                    <div className="h-px bg-white/5 my-2 mx-4" />
+                    {SITE_DATA.tabs.map((tab) => {
+                      const Icon = iconMap[tab.icon];
+                      return (
+                        <Button
+                          key={tab.id}
+                          variant="ghost"
+                          className={cn(
+                            "justify-start text-lg h-14 rounded-xl px-4",
+                            activeTab === tab.id ? "bg-blue-600/10 text-blue-400" : "text-slate-400"
+                          )}
+                          onClick={() => handleNav(tab.id)}
+                        >
+                          {Icon && <Icon className="mr-3 h-5 w-5" />}
+                          {tab.label}
+                        </Button>
+                      );
+                    })}
+                  </div>
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
         </div>
       </div>
