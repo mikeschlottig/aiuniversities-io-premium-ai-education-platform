@@ -24,13 +24,13 @@ export function HeroSection() {
             New: MIT 2025 AI Curriculum Added
           </span>
           <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-white leading-[1.1]">
-            Master the <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-violet-500">AI Frontier</span> with Premium Education
+            Master the <span className="text-white bg-clip-text bg-gradient-to-r from-blue-400 to-violet-500 md:text-transparent">AI Frontier</span> with Premium Education
           </h1>
           <p className="mt-6 text-lg md:text-xl text-slate-400 max-w-2xl mx-auto leading-relaxed">
             A curated multi-tab platform aggregating elite resources from MIT, Anthropic, and industry leaders. Build your second brain and master AI assistants.
           </p>
         </motion.div>
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
@@ -38,10 +38,10 @@ export function HeroSection() {
         >
           <Button size="lg" className="bg-blue-600 hover:bg-blue-700 text-white px-8 h-14 text-lg rounded-xl group">
             Start Learning Free
-            <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform duration-200" />
           </Button>
-          <Button size="lg" variant="outline" className="border-white/10 text-white hover:bg-white/5 h-14 text-lg rounded-xl">
-            <PlayCircle className="mr-2 h-5 w-5" />
+          <Button size="lg" variant="outline" className="border-white/10 text-white hover:bg-white/5 h-14 text-lg rounded-xl group">
+            <PlayCircle className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
             Watch Preview
           </Button>
         </motion.div>

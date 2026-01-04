@@ -18,6 +18,8 @@ export interface Tab {
   icon: string;
   heroTitle: string;
   heroSubtitle: string;
+  metaDescription: string;
+  keywords: string[];
   sections: ContentSection[];
 }
 export const SITE_DATA = {
@@ -58,6 +60,8 @@ export const SITE_DATA = {
       icon: "GraduationCap",
       heroTitle: "Ivy League Education, Zero Cost",
       heroSubtitle: "Curated open-courseware from MIT, Stanford, and Anthropic's research labs.",
+      metaDescription: "Access world-class AI and Computer Science education from MIT and Stanford for free. Curated open-courseware for the modern AI engineer.",
+      keywords: ["MIT free courses", "Stanford AI", "open courseware", "free computer science", "AI certification"],
       sections: [
         {
           id: "mit-core",
@@ -77,6 +81,8 @@ export const SITE_DATA = {
       icon: "Zap",
       heroTitle: "The AI-First Professional",
       heroSubtitle: "Master the foundational skills required to thrive in the age of intelligence.",
+      metaDescription: "Master prompt engineering, AI workflows, and foundational skills to become an AI-first professional in any industry.",
+      keywords: ["prompt engineering", "AI foundations", "LLM workflows", "AI productivity", "professional AI skills"],
       sections: [
         {
           id: "prompt-eng",
@@ -96,6 +102,8 @@ export const SITE_DATA = {
       icon: "Brain",
       heroTitle: "Augment Your Intelligence",
       heroSubtitle: "Connect AI to your personal knowledge base using modern RAG techniques.",
+      metaDescription: "Build a digital second brain using Obsidian, Notion, and AI. Learn personal knowledge management and RAG techniques for personal use.",
+      keywords: ["second brain", "personal knowledge management", "Obsidian AI", "Notion AI", "RAG for individuals"],
       sections: [
         {
           id: "tools",
@@ -115,6 +123,8 @@ export const SITE_DATA = {
       icon: "Wrench",
       heroTitle: "The AI Builder's Toolkit",
       heroSubtitle: "A curated directory of the best tools for developers and creators.",
+      metaDescription: "Explore a curated directory of AI tools, frameworks, and libraries for developers. From LangChain to Vercel AI SDK.",
+      keywords: ["AI tools directory", "developer resources", "LangChain", "Vercel AI", "AI libraries"],
       sections: [
         {
           id: "dev-tools",
