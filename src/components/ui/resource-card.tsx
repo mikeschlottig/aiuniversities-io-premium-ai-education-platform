@@ -59,9 +59,6 @@ interface ResourceCardProps extends VariantProps<typeof resourceCardVariants> {
   index?: number;
 }
 export const ResourceCard = React.memo(({ title, description, link, type, tag, featured, index = 0 }: ResourceCardProps) => {
-  const handleLinkClick = useCallback((e: React.MouseEvent) => {
-    // e.stopPropagation();
-  }, []);
   return (
     <motion.div
       initial={{ opacity: 0, y: 15 }}
@@ -104,7 +101,6 @@ export const ResourceCard = React.memo(({ title, description, link, type, tag, f
             variant="ghost"
             className={cn("w-full justify-between group/btn border border-white/5 bg-white/5 hover:bg-white/10 transition-all duration-300", getIconColor(type))}
             asChild
-            onClick={handleLinkClick}
           >
             <a href={link} target="_blank" rel="noopener noreferrer" aria-label={`Access ${title}`}>
               Access Resource

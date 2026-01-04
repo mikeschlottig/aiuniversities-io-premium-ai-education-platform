@@ -4,7 +4,6 @@ export function useScrollPosition() {
   const [isScrolled, setIsScrolled] = useState(false);
   useEffect(() => {
     let ticking = false;
-    let lastScrollY = window.scrollY;
     const updateScrollPosition = () => {
       const currentScrollY = window.scrollY;
       setScrollY(currentScrollY);

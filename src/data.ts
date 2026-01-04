@@ -76,16 +76,6 @@ export const SITE_DATA = {
             { title: "MIT 6.036", description: "Introduction to Machine Learning.", link: "#", type: "course", tag: "Intermediate" },
             { title: "Stanford CS229", description: "Andrew Ng's legendary Machine Learning course.", link: "#", type: "course", tag: "Advanced" }
           ]
-        },
-        {
-          id: "mit-specialized",
-          title: "Specialized AI Modules",
-          description: "Diving deeper into specific domains of intelligence.",
-          type: "resource-grid",
-          items: [
-            { title: "MIT 6.S191", description: "Introduction to Deep Learning.", link: "#", type: "course", tag: "Intermediate" },
-            { title: "MIT 6.824", description: "Distributed Systems for Large Scale Computing.", link: "#", type: "course", tag: "Advanced" }
-          ]
         }
       ]
     },
@@ -95,8 +85,8 @@ export const SITE_DATA = {
       icon: "Zap",
       heroTitle: "The AI-First Professional",
       heroSubtitle: "Master the foundational skills required to thrive in the age of intelligence.",
-      metaDescription: "Master prompt engineering, AI workflows, and foundational skills to become an AI-first professional in any industry.",
-      keywords: ["prompt engineering", "AI foundations", "LLM workflows", "AI productivity", "professional AI skills"],
+      metaDescription: "Master prompt engineering, AI workflows, and foundational skills to become an AI-first professional.",
+      keywords: ["prompt engineering", "AI foundations", "LLM workflows"],
       sections: [
         {
           id: "prompt-eng",
@@ -105,19 +95,7 @@ export const SITE_DATA = {
           type: "resource-grid",
           items: [
             { title: "Chain of Thought", description: "Advanced reasoning patterns for complex logic.", link: "#", type: "guide", featured: true },
-            { title: "System Prompting", description: "Architecting persona-driven assistants.", link: "#", type: "guide" },
-            { title: "Few-Shot Learning", description: "Techniques for high-accuracy output.", link: "#", type: "guide" },
-            { title: "Prompt Injection Defense", description: "Securing your AI applications.", link: "#", type: "report" }
-          ]
-        },
-        {
-          id: "ai-coding",
-          title: "AI-Powered Development",
-          description: "Accelerating your build speed with modern assistants.",
-          type: "resource-grid",
-          items: [
-            { title: "Cursor Mastery", description: "The definitive guide to the AI code editor.", link: "#", type: "guide" },
-            { title: "GitHub Copilot Patterns", description: "Best practices for pair programming.", link: "#", type: "guide" }
+            { title: "System Prompting", description: "Architecting persona-driven assistants.", link: "#", type: "guide" }
           ]
         }
       ]
@@ -128,8 +106,8 @@ export const SITE_DATA = {
       icon: "Brain",
       heroTitle: "Augment Your Intelligence",
       heroSubtitle: "Connect AI to your personal knowledge base using modern RAG techniques.",
-      metaDescription: "Build a digital second brain using Obsidian, Notion, and AI. Learn personal knowledge management and RAG techniques for personal use.",
-      keywords: ["second brain", "personal knowledge management", "Obsidian AI", "Notion AI", "RAG for individuals"],
+      metaDescription: "Build a digital second brain using Obsidian, Notion, and AI.",
+      keywords: ["second brain", "PKM", "Obsidian AI"],
       sections: [
         {
           id: "knowledge-os",
@@ -138,9 +116,7 @@ export const SITE_DATA = {
           type: "resource-grid",
           items: [
             { title: "Obsidian + Smart Connections", description: "Local-first AI knowledge graph.", link: "#", type: "tool", featured: true },
-            { title: "Notion AI Workflows", description: "Automating documentation with AI.", link: "#", type: "tool" },
-            { title: "Logseq AI", description: "Privacy-focused networked thought.", link: "#", type: "tool" },
-            { title: "Readwise Reader", description: "AI-powered content consumption pipeline.", link: "#", type: "tool" }
+            { title: "Notion AI Workflows", description: "Automating documentation with AI.", link: "#", type: "tool" }
           ]
         }
       ]
@@ -151,8 +127,8 @@ export const SITE_DATA = {
       icon: "MessageSquare",
       heroTitle: "The Power of Orchestration",
       heroSubtitle: "Advanced workflows for Claude, Gemini, and custom GPT architectures.",
-      metaDescription: "Learn advanced workflows for Claude Projects, Custom GPTs, and multi-agent orchestration to automate complex professional tasks.",
-      keywords: ["Claude Projects", "Custom GPTs", "AI Agents", "Gemini 1.5 Pro", "LLM orchestration"],
+      metaDescription: "Learn advanced workflows for Claude Projects and Custom GPTs.",
+      keywords: ["Claude Projects", "Custom GPTs", "AI Agents"],
       sections: [
         {
           id: "claude-mastery",
@@ -161,8 +137,7 @@ export const SITE_DATA = {
           type: "resource-grid",
           items: [
             { title: "Claude Projects", description: "Organizing large context for long-term builds.", link: "#", type: "guide", featured: true },
-            { title: "Artifacts Workflow", description: "Building UI components in real-time.", link: "#", type: "guide" },
-            { title: "Computer Use API", description: "Automating desktop tasks with Claude.", link: "#", type: "report" }
+            { title: "Artifacts Workflow", description: "Building UI components in real-time.", link: "#", type: "guide" }
           ]
         }
       ]
@@ -172,9 +147,9 @@ export const SITE_DATA = {
       label: "Content Mastery",
       icon: "Video",
       heroTitle: "Infinite Creative Leverage",
-      heroSubtitle: "Modern content production using NotebookLM, 11 Labs, and AI video pipelines.",
-      metaDescription: "Master AI-driven content creation. Learn to use NotebookLM for research, 11 Labs for audio, and Runway for video production.",
-      keywords: ["NotebookLM", "11 Labs", "AI video", "Runway Gen-3", "AI content pipeline"],
+      heroSubtitle: "Modern content production using NotebookLM and AI video pipelines.",
+      metaDescription: "Master AI-driven content creation with 11 Labs and Runway.",
+      keywords: ["NotebookLM", "11 Labs", "AI video"],
       sections: [
         {
           id: "audio-visual",
@@ -183,9 +158,7 @@ export const SITE_DATA = {
           type: "resource-grid",
           items: [
             { title: "NotebookLM Research", description: "Turning sources into podcasts and summaries.", link: "#", type: "tool", featured: true },
-            { title: "11 Labs Voice Design", description: "Professional grade AI voiceovers.", link: "#", type: "tool" },
-            { title: "Runway Gen-3 Alpha", description: "Cinematic video generation techniques.", link: "#", type: "guide" },
-            { title: "Luma Dream Machine", description: "Realistic 3D and video motion.", link: "#", type: "tool" }
+            { title: "11 Labs Voice Design", description: "Professional grade AI voiceovers.", link: "#", type: "tool" }
           ]
         }
       ]
@@ -196,8 +169,8 @@ export const SITE_DATA = {
       icon: "Wrench",
       heroTitle: "The AI Builder's Toolkit",
       heroSubtitle: "A curated directory of the best tools for developers and creators.",
-      metaDescription: "Explore a curated directory of AI tools, frameworks, and libraries for developers. From LangChain to Vercel AI SDK.",
-      keywords: ["AI tools directory", "developer resources", "LangChain", "Vercel AI", "AI libraries"],
+      metaDescription: "Explore a curated directory of AI tools and frameworks.",
+      keywords: ["AI tools", "LangChain", "Vercel AI"],
       sections: [
         {
           id: "dev-ecosystem",
@@ -206,9 +179,7 @@ export const SITE_DATA = {
           type: "resource-grid",
           items: [
             { title: "LangChain", description: "The standard for LLM orchestration.", link: "#", type: "tool", featured: true },
-            { title: "Vercel AI SDK", description: "Build AI interfaces in minutes.", link: "#", type: "tool" },
-            { title: "Pinecone", description: "Vector database for long-term memory.", link: "#", type: "tool" },
-            { title: "Hugging Face", description: "The GitHub of Machine Learning.", link: "#", type: "tool" }
+            { title: "Vercel AI SDK", description: "Build AI interfaces in minutes.", link: "#", type: "tool" }
           ]
         }
       ]
@@ -219,8 +190,8 @@ export const SITE_DATA = {
       icon: "School",
       heroTitle: "The Future of Learning",
       heroSubtitle: "Pedagogical frameworks and structured learning paths for professional mastery.",
-      metaDescription: "Structured learning paths and pedagogical frameworks designed for rapid AI skill acquisition and professional development.",
-      keywords: ["learning theory", "AI curriculum", "spaced repetition", "skill acquisition", "professional mastery"],
+      metaDescription: "Structured learning paths for rapid AI skill acquisition.",
+      keywords: ["learning theory", "AI curriculum"],
       sections: [
         {
           id: "learning-paths",
@@ -229,8 +200,28 @@ export const SITE_DATA = {
           type: "resource-grid",
           items: [
             { title: "The AI Engineer Path", description: "From Python to production RAG.", link: "#", type: "guide", featured: true },
-            { title: "AI for Business Leaders", description: "Strategic implementation of LLMs.", link: "#", type: "guide" },
-            { title: "Research Fundamentals", description: "Reading and understanding AI papers.", link: "#", type: "course" }
+            { title: "AI for Business Leaders", description: "Strategic implementation of LLMs.", link: "#", type: "guide" }
+          ]
+        }
+      ]
+    },
+    {
+      id: "about-vision",
+      label: "About / Vision",
+      icon: "Info",
+      heroTitle: "Our Vision for Education",
+      heroSubtitle: "Democratizing elite AI knowledge through curation and structured pathways.",
+      metaDescription: "Learn about the mission of AIUniversities.io and our commitment to free, high-quality AI education.",
+      keywords: ["AI education mission", "about AIUniversities"],
+      sections: [
+        {
+          id: "mission",
+          title: "The Mission",
+          description: "Why we aggregate the world's best AI resources.",
+          type: "resource-grid",
+          items: [
+            { title: "Open Education", description: "Our commitment to keeping high-quality resources accessible to all.", link: "#", type: "guide", featured: true },
+            { title: "Contact Us", description: "Reach out for partnerships or content suggestions.", link: "mailto:hello@aiuniversities.io", type: "guide" }
           ]
         }
       ]

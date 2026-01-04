@@ -8,11 +8,11 @@ interface SEOHeadProps {
 const ORIGIN = typeof window !== 'undefined' ? window.location.origin : 'https://aiuniversities.io';
 export const SEOHead = React.memo(({ tabId, tabData }: SEOHeadProps) => {
   const isHome = tabId === 'home';
-  const title = useMemo(() => isHome
-    ? "AIUniversities.io | Master AI & Modern Tech—Free"
+  const title = useMemo(() => isHome 
+    ? "AIUniversities.io | Master AI & Modern Tech���Free" 
     : `AIUniversities.io | ${tabData?.label || 'Premium AI Education'}`
   , [isHome, tabData?.label]);
-  const description = useMemo(() => isHome
+  const description = useMemo(() => isHome 
     ? "Premium AI education platform aggregating elite resources from MIT, Anthropic, and industry leaders. Master AI skills, build your second brain, and leverage modern tech."
     : (tabData?.metaDescription || tabData?.heroSubtitle || "").substring(0, 160)
   , [isHome, tabData?.metaDescription, tabData?.heroSubtitle]);
@@ -48,19 +48,6 @@ export const SEOHead = React.memo(({ tabId, tabData }: SEOHeadProps) => {
       } : null
     ].filter(Boolean)
   }), [isHome, tabData, canonicalUrl]);
-  const courseSchema = useMemo(() => !isHome && tabData ? {
-    "@context": "https://schema.org",
-    "@type": "Course",
-    "name": tabData.heroTitle,
-    "description": tabData.metaDescription,
-    "provider": {
-      "@type": "Organization",
-      "name": "AIUniversities.io",
-      "sameAs": ORIGIN
-    },
-    "educationalLevel": "Beginner to Advanced",
-    "courseMode": "Online"
-  } : null, [isHome, tabData]);
   return (
     <Helmet key={tabId}>
       <title>{title}</title>
@@ -81,11 +68,6 @@ export const SEOHead = React.memo(({ tabId, tabData }: SEOHeadProps) => {
       <script type="application/ld+json">
         {JSON.stringify(breadcrumbSchema)}
       </script>
-      {courseSchema && (
-        <script type="application/ld+json">
-          {JSON.stringify(courseSchema)}
-        </script>
-      )}
     </Helmet>
   );
 }, (prev, next) => prev.tabId === next.tabId && prev.tabData?.id === next.tabData?.id);

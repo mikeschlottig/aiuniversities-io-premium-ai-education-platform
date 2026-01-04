@@ -50,9 +50,11 @@ const CourseCard = React.memo(({ course, index }: { course: any, index: number }
         </CardHeader>
         <div className="flex-grow" />
         <CardFooter className="relative z-10 pb-6">
-          <Button variant="secondary" className="w-full bg-white/5 hover:bg-white/10 text-white border border-white/10 group/btn h-12 rounded-xl transition-all">
-            Access Course
-            <ExternalLink className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+          <Button variant="secondary" className="w-full bg-white/5 hover:bg-white/10 text-white border border-white/10 group/btn h-12 rounded-xl transition-all" asChild>
+            <a href={course.link} target="_blank" rel="noopener noreferrer">
+              Access Course
+              <ExternalLink className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
+            </a>
           </Button>
         </CardFooter>
       </Card>

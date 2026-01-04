@@ -2,12 +2,12 @@ import React, { useState, useCallback, useMemo } from 'react';
 import { SITE_DATA } from '@/data';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Sparkles, Search, GraduationCap, Zap, Brain, Wrench, MessageSquare, Video, School } from 'lucide-react';
+import { Menu, Sparkles, Search, GraduationCap, Zap, Brain, Wrench, MessageSquare, Video, School, Info } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import { useScrollPosition } from '@/hooks/use-scroll-position';
 const iconMap: Record<string, any> = {
-  GraduationCap, Zap, Brain, Wrench, MessageSquare, Video, School
+  GraduationCap, Zap, Brain, Wrench, MessageSquare, Video, School, Info
 };
 interface SiteHeaderProps {
   activeTab: string;

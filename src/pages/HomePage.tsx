@@ -25,7 +25,6 @@ export function HomePage() {
       searchParams.set('tab', id);
     }
     setSearchParams(searchParams);
-    // Smooth transition delay
     setTimeout(() => {
       setIsTransitioning(false);
     }, 150);
