@@ -1,6 +1,6 @@
 # AI Universities Platform
 
-[![[cloudflarebutton]]](https://deploy.workers.cloudflare.com)
+[![[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/mikeschlottig/aiuniversities-io-premium-ai-education-platform)]](https://deploy.workers.cloudflare.com)
 
 A full-stack chat application built with Cloudflare Workers, React, and Durable Objects. This platform demonstrates scalable user management, chat boards, and real-time messaging using a single Durable Object namespace for efficient entity storage.
 
@@ -72,7 +72,7 @@ bun run build
 
 Your app will be live at `https://<worker-name>.<subdomain>.workers.dev`.
 
-[![[cloudflarebutton]]](https://deploy.workers.cloudflare.com)
+[![[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/mikeschlottig/aiuniversities-io-premium-ai-education-platform)]](https://deploy.workers.cloudflare.com)
 
 **Note**: Ensure your `wrangler.jsonc` has the correct account ID and settings. Durable Objects migrations are pre-configured.
 
