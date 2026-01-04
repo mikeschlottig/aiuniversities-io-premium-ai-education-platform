@@ -11,10 +11,10 @@ const resourceCardVariants = cva(
   {
     variants: {
       type: {
-        course: "hover:border-blue-500/50 hover:shadow-[0_0_20px_rgba(59,130,246,0.15)]",
-        tool: "hover:border-emerald-500/50 hover:shadow-[0_0_20px_rgba(16,185,129,0.15)]",
-        guide: "hover:border-amber-500/50 hover:shadow-[0_0_20px_rgba(245,158,11,0.15)]",
-        report: "hover:border-purple-500/50 hover:shadow-[0_0_20px_rgba(168,85,247,0.15)]",
+        course: "hover:border-blue-500/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.2)]",
+        tool: "hover:border-emerald-500/50 hover:shadow-[0_0_30px_rgba(16,185,129,0.2)]",
+        guide: "hover:border-amber-500/50 hover:shadow-[0_0_30px_rgba(245,158,11,0.2)]",
+        report: "hover:border-purple-500/50 hover:shadow-[0_0_30px_rgba(168,85,247,0.2)]",
       }
     },
     defaultVariants: {
@@ -33,11 +33,11 @@ const getIcon = (type: string) => {
 };
 const getGradient = (type: string) => {
   switch (type) {
-    case 'course': return "from-blue-600/20 to-indigo-600/5";
-    case 'tool': return "from-emerald-600/20 to-teal-600/5";
-    case 'guide': return "from-amber-600/20 to-orange-600/5";
-    case 'report': return "from-purple-600/20 to-pink-600/5";
-    default: return "from-blue-600/20 to-indigo-600/5";
+    case 'course': return "from-blue-600/30 to-indigo-600/5";
+    case 'tool': return "from-emerald-600/30 to-teal-600/5";
+    case 'guide': return "from-amber-600/30 to-orange-600/5";
+    case 'report': return "from-purple-600/30 to-pink-600/5";
+    default: return "from-blue-600/30 to-indigo-600/5";
   }
 };
 const getIconColor = (type: string) => {
@@ -60,7 +60,6 @@ interface ResourceCardProps extends VariantProps<typeof resourceCardVariants> {
 }
 export const ResourceCard = React.memo(({ title, description, link, type, tag, featured, index = 0 }: ResourceCardProps) => {
   const handleLinkClick = useCallback((e: React.MouseEvent) => {
-    // Prevent any potential parent re-renders if needed
     // e.stopPropagation();
   }, []);
   return (
@@ -68,19 +67,19 @@ export const ResourceCard = React.memo(({ title, description, link, type, tag, f
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.3, delay: index * 0.05 }}
-      whileHover={{ scale: 1.01 }}
+      whileHover={{ scale: 1.01, translateY: -4 }}
       className="h-full"
     >
-      <Card className={cn(resourceCardVariants({ type }), "bg-slate-900/40 backdrop-blur-sm h-full flex flex-col")}>
-        <div className={cn("absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none", getGradient(type))} />
+      <Card className={cn(resourceCardVariants({ type }), "bg-slate-900/40 backdrop-blur-sm h-full flex flex-col transition-all duration-300")}>
+        <div className={cn("absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-15 transition-opacity duration-500 pointer-events-none", getGradient(type))} />
         <CardHeader className="relative z-10 pb-3">
           <div className="flex justify-between items-start mb-4">
-            <div className={cn("p-2.5 rounded-xl bg-slate-800/50 border border-white/5", getIconColor(type))}>
+            <div className={cn("p-2.5 rounded-xl bg-slate-800/50 border border-white/5 transition-transform duration-300 group-hover:scale-110", getIconColor(type))}>
               {getIcon(type)}
             </div>
             <div className="flex gap-2">
               {featured && (
-                <Badge className="bg-amber-500/10 text-amber-500 border-amber-500/20 flex gap-1 items-center px-2">
+                <Badge className="bg-amber-500/10 text-amber-500 border-amber-500/20 flex gap-1 items-center px-2 animate-glow-pulse">
                   <Star className="h-3 w-3 fill-current" />
                   Featured
                 </Badge>
@@ -95,7 +94,7 @@ export const ResourceCard = React.memo(({ title, description, link, type, tag, f
           <CardTitle className="text-xl text-white group-hover:text-white transition-colors">
             {title}
           </CardTitle>
-          <CardDescription className="text-slate-400 text-sm leading-relaxed mt-2 line-clamp-3">
+          <CardDescription className="text-slate-400 text-sm leading-relaxed mt-2 line-clamp-3 group-hover:text-slate-300 transition-colors">
             {description}
           </CardDescription>
         </CardHeader>
@@ -103,13 +102,13 @@ export const ResourceCard = React.memo(({ title, description, link, type, tag, f
         <CardFooter className="relative z-10 pt-0">
           <Button
             variant="ghost"
-            className={cn("w-full justify-between group/btn border border-white/5 bg-white/5 hover:bg-white/10", getIconColor(type))}
+            className={cn("w-full justify-between group/btn border border-white/5 bg-white/5 hover:bg-white/10 transition-all duration-300", getIconColor(type))}
             asChild
             onClick={handleLinkClick}
           >
             <a href={link} target="_blank" rel="noopener noreferrer" aria-label={`Access ${title}`}>
               Access Resource
-              <ExternalLink className="h-4 w-4 opacity-50 group-hover/btn:opacity-100 group-hover/btn:translate-x-0.5 transition-all" />
+              <ExternalLink className="h-4 w-4 opacity-50 group-hover/btn:opacity-100 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 group-hover/btn:rotate-12 transition-all duration-300" />
             </a>
           </Button>
         </CardFooter>
@@ -117,8 +116,8 @@ export const ResourceCard = React.memo(({ title, description, link, type, tag, f
     </motion.div>
   );
 }, (prev, next) => (
-  prev.title === next.title && 
-  prev.type === next.type && 
+  prev.title === next.title &&
+  prev.type === next.type &&
   prev.featured === next.featured &&
   prev.tag === next.tag
 ));

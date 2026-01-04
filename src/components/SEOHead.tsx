@@ -9,7 +9,7 @@ const ORIGIN = typeof window !== 'undefined' ? window.location.origin : 'https:/
 export const SEOHead = React.memo(({ tabId, tabData }: SEOHeadProps) => {
   const isHome = tabId === 'home';
   const title = useMemo(() => isHome
-    ? "AIUniversities.io | Master AI & Modern Tech��Free"
+    ? "AIUniversities.io | Master AI & Modern Tech—Free"
     : `AIUniversities.io | ${tabData?.label || 'Premium AI Education'}`
   , [isHome, tabData?.label]);
   const description = useMemo(() => isHome
@@ -47,7 +47,7 @@ export const SEOHead = React.memo(({ tabId, tabData }: SEOHeadProps) => {
         "item": canonicalUrl
       } : null
     ].filter(Boolean)
-  }), [isHome, tabData?.label, canonicalUrl]);
+  }), [isHome, tabData, canonicalUrl]);
   const courseSchema = useMemo(() => !isHome && tabData ? {
     "@context": "https://schema.org",
     "@type": "Course",
@@ -60,7 +60,7 @@ export const SEOHead = React.memo(({ tabId, tabData }: SEOHeadProps) => {
     },
     "educationalLevel": "Beginner to Advanced",
     "courseMode": "Online"
-  } : null, [isHome, tabData?.heroTitle, tabData?.metaDescription]);
+  } : null, [isHome, tabData]);
   return (
     <Helmet key={tabId}>
       <title>{title}</title>

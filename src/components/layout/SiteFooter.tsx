@@ -3,6 +3,8 @@ import { Github, Twitter, Linkedin, ArrowUp, CheckCircle2, Loader2 } from 'lucid
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
+import { useScrollPosition } from '@/hooks/use-scroll-position';
+import { motion, AnimatePresence } from 'framer-motion';
 const SOCIAL_LINKS = [
   { icon: Twitter, label: 'Twitter', color: 'hover:text-sky-400' },
   { icon: Github, label: 'Github', color: 'hover:text-slate-200' },
@@ -11,6 +13,8 @@ const SOCIAL_LINKS = [
 export function SiteFooter() {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { scrollY } = useScrollPosition();
+  const showScrollTop = scrollY > 300;
   const handleSubscribe = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !email.includes('@')) {
@@ -34,14 +38,16 @@ export function SiteFooter() {
   }, []);
   const socialButtons = useMemo(() => (
     SOCIAL_LINKS.map((social) => (
-      <a
+      <motion.a
         key={social.label}
         href="#"
-        className={cn("text-slate-500 transition-all duration-300 transform hover:scale-110 hover:-translate-y-1", social.color)}
+        whileHover={{ scale: 1.15, translateY: -3 }}
+        transition={{ type: "spring", stiffness: 400, damping: 10 }}
+        className={cn("text-slate-500 transition-colors duration-300", social.color)}
         aria-label={`Follow us on ${social.label}`}
       >
         <social.icon className="h-6 w-6" />
-      </a>
+      </motion.a>
     ))
   ), []);
   return (
@@ -72,7 +78,7 @@ export function SiteFooter() {
               </ul>
             </div>
           </div>
-          <div className="lg:col-span-4 bg-white/5 p-8 rounded-3xl border border-white/5 backdrop-blur-sm">
+          <div className="lg:col-span-4 bg-white/5 p-8 rounded-3xl border border-white/5 backdrop-blur-sm shadow-inner shadow-white/5">
             <h4 className="text-white font-bold text-lg mb-4">Stay Ahead of the Curve</h4>
             <p className="text-slate-400 mb-6">Get weekly AI insights and resource drops.</p>
             <form className="space-y-3" onSubmit={handleSubscribe}>
@@ -81,17 +87,14 @@ export function SiteFooter() {
                   type="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  onBlur={() => {
-                    if (email && !email.includes('@')) toast.error('Invalid email format');
-                  }}
                   placeholder="name@company.com"
-                  className="w-full bg-slate-900 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                  className="w-full bg-slate-900 border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:bg-slate-800/80 transition-all duration-300"
                 />
               </div>
               <Button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 rounded-xl font-bold transition-all active:scale-95 will-change-transform"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white h-12 rounded-xl font-bold transition-all active:scale-95 disabled:opacity-70 will-change-transform shadow-lg shadow-blue-500/20"
               >
                 {isSubmitting ? <Loader2 className="h-5 w-5 animate-spin" /> : 'Join Newsletter'}
               </Button>
@@ -107,15 +110,25 @@ export function SiteFooter() {
               <a href="mailto:hello@aiuniversities.io" className="hover:text-white transition-colors">Contact</a>
             </div>
           </div>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={scrollToTop}
-            className="text-slate-400 hover:text-white hover:bg-white/5 rounded-xl group"
-          >
-            Back to top
-            <ArrowUp className="ml-2 h-4 w-4 group-hover:-translate-y-1 transition-transform" />
-          </Button>
+          <AnimatePresence>
+            {showScrollTop && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 10 }}
+              >
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={scrollToTop}
+                  className="text-slate-400 hover:text-white hover:bg-white/5 rounded-xl group transition-all duration-300"
+                >
+                  Back to top
+                  <ArrowUp className="ml-2 h-4 w-4 group-hover:-translate-y-1 transition-transform duration-300" />
+                </Button>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
     </footer>
